@@ -33,6 +33,10 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
     Route::post('/refresh', [App\Http\Controllers\Api\AuthController::class, 'refresh']);
     Route::get('/test_api', [App\Http\Controllers\Api\AuthController::class, 'test_api']);*/
+    
+    Route::get('/emergency', [App\Http\Controllers\Api\EmergencyController::class, 'postEmergencyCase']);
+
+
 });
 Route::group(['middleware' => ['api'], 'prefix' => 'user'], function ($router) {
   Route::get('detail/{id}', [App\Http\Controllers\Api\UserController::class, 'getuserDetails']);
@@ -116,6 +120,7 @@ Route::group(['middleware' => ['api'], 'prefix' => 'doctors'], function ($router
     Route::post('/createdoctor', [App\Http\Controllers\Api\DoctorsController::class, 'CreateDoctor']);
     Route::post('/updatedoctor/{id}', [App\Http\Controllers\Api\DoctorsController::class, 'UpdateDoctor']);
     Route::post('/deletedoctor', [App\Http\Controllers\Api\DoctorsController::class, 'deleteDoctor']);
+    Route::get('/getdoctorsbydepartment/{id}', [App\Http\Controllers\Api\DoctorsController::class, 'GetDoctorsByDepartment']);
 });
 
 Route::group(['middleware' => ['api'], 'prefix' => 'packages'], function ($router) {
@@ -215,4 +220,9 @@ Route::group(['middleware' => ['api','jwt.verify'],'prefix' => 'errorlog'], func
     Route::post('search', 'Api\ErrorLogController@errorSearch');
     Route::get('detail/{id}', 'Api\ErrorLogController@geterrorDetails');
 });
+
+Route::group(['middleware' => ['api'],'prefix' => 'emergency'], function(){
+    Route::post('case', [App\Http\Controllers\Api\EmergencyController::class, 'postEmergencyCase']);
+});
+
 

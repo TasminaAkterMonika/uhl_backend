@@ -111,6 +111,31 @@ class DoctorsController extends Controller
 	      	return response()->json(['status'=>false,'message'=>'','error'=>'Undefined variable error','data'=>''], 401);
 	    }
 	}
+// ----------------------------------------------Single department doctor show------------------------------------------------------//
+
+
+	public function GetDoctorsByDepartment(Request $request, $id)
+    {
+    	try{
+    		$doctors_data = Doctors::select('doctors.*')->where("doctors.dept_id",trim($id))->get();
+    		if($doctors_data){
+    			return response()->json(['status'=>true,'message'=>'Doctors Listings','error'=>'','data'=>$doctors_data], 200);
+    		} else {
+    			return response()->json(['status'=>false,'message'=>'No result Found of doctors','error'=>'','data'=>''], 200);
+    		}
+    	} catch(\Illuminate\Database\QueryException $e) {
+	      	$errorClass = new ErrorsClass();
+	      	$errors = $errorClass->saveErrors($e);
+	      	return response()->json(['status'=>false,'message'=>'','error'=>'Sql query error','data'=>''], 401); 
+	    } catch(\Exception $e) {
+	      	$errorClass = new ErrorsClass();
+	      	$errors = $errorClass->saveErrors($e);
+	      	return response()->json(['status'=>false,'message'=>'','error'=>'Undefined variable error','data'=>''], 401);
+	    }
+	}
+
+// ----------------------------------------------Single department doctor show------------------------------------------------------//
+
 	public function GetAllDoctors(Request $request)
     {
     	try{
